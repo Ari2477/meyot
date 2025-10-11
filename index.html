@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AJ Notebook Portfolio</title>
+
+  <!-- Handwriting font -->
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Indie+Flower&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper-color: #fffef9;
+      --line-color: rgba(0, 122, 255, 0.25);
+      --margin-color: rgba(255, 0, 0, 0.25);
+      --accent: #0077b6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Patrick Hand', 'Indie Flower', cursive;
+      background-color: #ececec;
+      color: #0a2a43;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+    }
+
+    /* Notebook page container */
+    .notebook {
+      background-color: var(--paper-color);
+      width: 100%;
+      max-width: 900px;
+      min-height: 100vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+      position: relative;
+      padding: 40px 30px 60px 70px;
+      overflow: hidden;
+      line-height: 1.8;
+    }
+
+    /* Notebook lines (blue horizontal + red vertical margin) */
+    .notebook::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50px;
+      width: 2px;
+      height: 100%;
+      background: var(--margin-color);
+      z-index: 1;
+    }
+
+    .notebook::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 22px,
+        var(--line-color) 23px
+      );
+      z-index: 0;
+    }
+
+    /* Spiral binding on the left */
+    .spiral {
+      position: absolute;
+      top: 20px;
+      left: 10px;
+      width: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 5;
+    }
+
+    .spiral div {
+      width: 18px;
+      height: 18px;
+      border: 3px solid #222;
+      border-radius: 50%;
+      background: radial-gradient(circle, #555 20%, #222 80%);
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    header h1 {
+      font-size: 2.2em;
+      margin-bottom: 0;
+      color: #0077b6;
+    }
+
+    header p {
+      font-size: 1.1em;
+      color: #0a2a43;
+      margin-top: 5px;
+    }
+
+    /* Section headings */
+    section {
+      margin-top: 30px;
+      position: relative;
+      z-index: 2;
+    }
+
+    h2 {
+      color: #0077b6;
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      border-bottom: 2px dashed rgba(0, 0, 0, 0.1);
+      display: inline-block;
+    }
+
+    p {
+      font-size: 1.05em;
+    }
+
+    /* Skills */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .skills span {
+      background: rgba(0, 119, 182, 0.1);
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 1px dashed rgba(0, 119, 182, 0.3);
+      font-size: 1em;
+    }
+
+    /* Projects */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .project {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .project:hover {
+      transform: scale(1.03);
+    }
+
+    .project h4 {
+      color: #0077b6;
+      margin-bottom: 5px;
+    }
+
+    /* Contact */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 2;
+    }
+
+    input, textarea {
+      border: none;
+      border-bottom: 2px dashed rgba(0, 0, 0, 0.2);
+      background: transparent;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.05em;
+      padding: 5px;
+      outline: none;
+      color: #0a2a43;
+    }
+
+    button {
+      width: fit-content;
+      background: #0077b6;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #005f8d;
+    }
+
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #555;
+      z-index: 2;
+    }
+
+    /* Responsive Design for Android / small screens */
+    @media (max-width: 768px) {
+      .notebook {
+        padding: 30px 20px 60px 55px;
+      }
+      .notebook::before {
+        left: 35px;
+      }
+      header h1 {
+        font-size: 1.8em;
+      }
+      h2 {
+        font-size: 1.3em;
+      }
+      .spiral {
+        left: 5px;
+        gap: 8px;
+      }
+      .spiral div {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="notebook">
+    <!-- Spiral binding -->
+    <div class="spiral">
+      <div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div>
+    </div>
+
+    <header>
+      <h1>AJ's Notebook Portfolio</h1>
+      <p>Full-Stack Developer ✨ Creative Designer ✏️</p>
+    </header>
+
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        Hello! Ako si <strong>AJ</strong> — mahilig ako sa paggawa ng modern at creative web designs
+        na may personal touch. Gusto ko yung mga site na may personality — kaya ito, parang notebook!
+      </p>
+    </section>
+
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="skills">
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>React</span>
+        <span>Node.js</span>
+        <span>Python</span>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="projects">
+        <div class="project">
+          <h4>ShareBoost</h4>
+          <p>Social media engagement booster with real-time analytics and user dashboard.</p>
+        </div>
+        <div class="project">
+          <h4>NovaBot</h4>
+          <p>AI chat bot that can interact naturally with users across platforms.</p>
+        </div>
+        <div class="project">
+          <h4>CodeWave</h4>
+          <p>Web IDE with live preview and smooth coding experience for students.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <form id="contactForm" onsubmit="sendMessage(event)">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" rows="4" placeholder="Your Message..." required></textarea>
+        <button type="submit">Send Message</button>
+        <div id="status"></div>
+      </form>
+    </section>
+
+    <footer>
+      © 2025 AJ’s Notebook Portfolio 📝 All Rights Reserved
+    </footer>
+  </div>
+
+  <script>
+    // Fake message send (demo only)
+    function sendMessage(event) {
+      event.preventDefault();
+      const status = document.getElementById("status");
+      status.textContent = "Sending...";
+      setTimeout(() => {
+        status.textContent = "Message sent! (Demo only)";
+      }, 800);
+    }
+  </script>
+</body>
+</html>
