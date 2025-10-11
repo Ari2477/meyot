@@ -5,175 +5,219 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Notebook Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Homemade+Apple&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-</head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
-  margin: 0;
-  background-color: #fefcf8;
-  background-image:
-    repeating-linear-gradient(#fefcf8, #fefcf8 22px, #e3e3e3 23px),
-    linear-gradient(to right, #fefcf8 40px, #a4c8e1 41px, #fefcf8 42px);
-  color: #333;
-  font-family: 'Patrick Hand', cursive;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-  min-height: 100vh;
-  background-attachment: fixed;
-  box-sizing: border-box;
-  transition: background 0.4s ease;
-}
+      margin: 0;
+      background-color: #fefcf8;
+      background-image:
+        repeating-linear-gradient(#fefcf8, #fefcf8 22px, #e3e3e3 23px),
+        linear-gradient(to right, #fefcf8 40px, #a4c8e1 41px, #fefcf8 42px);
+      color: #333;
+      font-family: 'Patrick Hand', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      min-height: 100vh;
+      background-attachment: fixed;
+      box-sizing: border-box;
+      transition: background 0.4s ease;
+    }
 
-/* Notebook container */
-.notebook {
-  background-color: rgba(255, 255, 255, 0.85);
-  border: 1px solid #d3d3d3;
-  width: 95%;
-  max-width: 600px;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-  backdrop-filter: blur(2px);
-  transition: all 0.3s ease-in-out;
-}
+    /* Notebook container */
+    .notebook {
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 1px solid #d3d3d3;
+      width: 95%;
+      max-width: 600px;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      backdrop-filter: blur(3px);
+      transition: all 0.3s ease-in-out;
+    }
 
-/* Profile image */
-#icon-mainn {
-  border-radius: 50%;
-  border: 3px solid #007bff;
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
-  margin-top: -30px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease;
-}
-#icon-mainn:hover {
-  transform: scale(1.05);
-}
+    /* Profile image */
+    #icon-mainn {
+      border-radius: 50%;
+      border: 3px solid #007bff;
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      margin-top: -30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+    }
+    #icon-mainn:hover {
+      transform: scale(1.05);
+    }
 
-/* Status dot */
-#active-status {
-  background-color: #28a745;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: 2px solid white;
-  margin-top: -15px;
-  margin-left: 70px;
-  box-shadow: 0 0 10px rgba(40,167,69,0.5);
-  transition: transform 0.3s ease;
-}
+    /* Status dot */
+    #active-status {
+      background-color: #28a745;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 2px solid white;
+      margin-top: -28px;
+      margin-left: 70px;
+      box-shadow: 0 0 10px rgba(40,167,69,0.5);
+      transition: transform 0.3s ease;
+    }
 
-/* Name and bio */
-.name {
-  font-size: 18px;
-  margin-top: 10px;
-  color: #222;
-  letter-spacing: 0.5px;
-}
+    /* Name and bio */
+    .name {
+      font-size: 18px;
+      margin-top: 10px;
+      color: #222;
+      letter-spacing: 0.5px;
+      text-shadow: 0.4px 0.4px 0 #ccc;
+    }
 
-.bio {
-  font-size: 13px;
-  color: #555;
-  margin-bottom: 10px;
-  text-align: left;
-  line-height: 1.5;
-}
+    .bio {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 10px;
+      text-align: left;
+      line-height: 1.5;
+    }
 
-/* Sections */
-.container {
-  border-left: 3px solid #007bff;
-  background: rgba(255,255,255,0.6);
-  padding: 15px;
-  margin: 15px 0;
-  border-radius: 8px;
-  text-align: left;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
+    /* Sections */
+    .container {
+      border-left: 3px solid #007bff;
+      background: rgba(255,255,255,0.6);
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      text-align: left;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
 
-.container h2 {
-  color: #007bff;
-  font-size: 15px;
-  margin-bottom: 5px;
-  letter-spacing: 0.3px;
-}
+    .container h2 {
+      color: #007bff;
+      font-size: 15px;
+      margin-bottom: 5px;
+      letter-spacing: 0.3px;
+    }
 
-.container p, .container li {
-  font-size: 13px;
-  line-height: 1.4;
-  color: #444;
-}
+    .container p, .container li {
+      font-size: 13px;
+      line-height: 1.4;
+      color: #444;
+    }
 
-/* Skills */
-.skills {
-  list-style-type: square;
-  padding-left: 20px;
-}
+    /* Skills */
+    .skills {
+      list-style-type: square;
+      padding-left: 20px;
+    }
 
-/* Horizontal rule */
-.line-main {
-  border: none;
-  border-top: 1px dashed #bbb;
-  margin: 15px 0;
-}
+    /* Horizontal rule */
+    .line-main {
+      border: none;
+      border-top: 1px dashed #bbb;
+      margin: 15px 0;
+    }
 
-/* Footer */
-footer {
-  text-align: center;
-  font-size: 12px;
-  margin-top: 20px;
-}
+    /* Project Buttons */
+    .project-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.8);
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
 
-.github-profile {
-  display: inline-block;
-  color: #007bff;
-  text-decoration: none;
-  margin-bottom: 8px;
-  transition: color 0.3s ease;
-}
+    .project-item:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
 
-.github-profile:hover {
-  color: #0056b3;
-  text-decoration: underline;
-}
+    .project-name {
+      font-size: 13px;
+      color: #333;
+    }
 
-/* Smooth hover & shadows */
-.container:hover {
-  background: rgba(255,255,255,0.8);
-  transform: translateY(-2px);
-  transition: all 0.3s ease;
-}
+    .project-btn {
+      background-color: #007bff;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 12px;
+      padding: 6px 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Patrick Hand', cursive;
+    }
 
-/* Mobile-friendly */
-@media (max-width: 600px) {
-  .notebook {
-    padding: 15px;
-  }
+    .project-btn:hover {
+      background-color: #0056b3;
+    }
 
-  .name {
-    font-size: 16px;
-  }
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 12px;
+      margin-top: 20px;
+    }
 
-  .bio {
-    font-size: 12px;
-  }
+    .github-profile {
+      display: inline-block;
+      color: #007bff;
+      text-decoration: none;
+      margin-bottom: 8px;
+      transition: color 0.3s ease;
+    }
 
-  .container h2 {
-    font-size: 14px;
-  }
+    .github-profile:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
 
-  .container p, .container li {
-    font-size: 12px;
-  }
-}
+    /* Smooth hover & shadows */
+    .container:hover {
+      background: rgba(255,255,255,0.8);
+      transform: translateY(-2px);
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile-friendly */
+    @media (max-width: 600px) {
+      .notebook {
+        padding: 15px;
+      }
+
+      .name {
+        font-size: 16px;
+      }
+
+      .bio {
+        font-size: 12px;
+      }
+
+      .container h2 {
+        font-size: 14px;
+      }
+
+      .container p, .container li {
+        font-size: 12px;
+      }
+    }
   </style>
+</head>
 <body>
   <div class="notebook">
     <header>
-      <img id="icon-mainn" src="profile.jpg" alt="Profile Picture">
+      <img id="icon-mainn" src="https://i.imgur.com/wSqyacy.jpeg" alt="Profile Picture">
       <div id="active-status"></div>
       <h1 class="name" id="animated-name">Ari ✍️</h1>
       <p class="bio">Hi! I'm a creative web developer who loves tech, design, and turning ideas into real code.</p>
@@ -198,19 +242,30 @@ footer {
 
     <section class="container">
       <h2>📂 Projects</h2>
-      <p>✨ NovaBot – A smart Facebook bot</p>
-      <p>⚙️ ShareBoost – Social growth tool</p>
-      <p>🎮 PixelRun – Mini Java Game</p>
+      <div class="project-item">
+        <span class="project-name">✨ NovaBot – Smart Facebook Bot</span>
+        <button class="project-btn"><i class="fa-solid fa-robot"></i> View</button>
+      </div>
+
+      <div class="project-item">
+        <span class="project-name">⚙️ ShareBoost – Social Growth Tool</span>
+        <button class="project-btn"><i class="fa-solid fa-share-nodes"></i> Visit</button>
+      </div>
+
+      <div class="project-item">
+        <span class="project-name">🎮 PixelRun – Mini Java Game</span>
+        <button class="project-btn"><i class="fa-solid fa-gamepad"></i> Play</button>
+      </div>
     </section>
 
     <footer>
-      <a class="github-profile" href="#">View my GitHub</a>
-      <p style="font-size:10px; color:gray;">© 2025 AJ Chicano | Handcrafted Portfolio</p>
+      <a class="github-profile" href="#"><i class="fa-brands fa-github"></i> View my GitHub</a>
+      <p style="font-size:10px; color:gray;">© 2025 Ari | Handcrafted Portfolio</p>
     </footer>
   </div>
 
   <script>
-    // ✏️ Smooth handwriting animation for the name
+    // ✏️ Typewriter animation for name
     const nameEl = document.getElementById('animated-name');
     const text = nameEl.textContent;
     nameEl.textContent = '';
@@ -231,6 +286,14 @@ footer {
       status.style.transform = "scale(1.2)";
       setTimeout(() => status.style.transform = "scale(1)", 400);
     }, 1500);
+
+    // ✨ Button click animation
+    document.querySelectorAll('.project-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.style.transform = "scale(0.9)";
+        setTimeout(() => btn.style.transform = "scale(1)", 150);
+      });
+    });
   </script>
 </body>
 </html>
