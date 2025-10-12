@@ -12,7 +12,6 @@
     margin: 0;
     font-family: 'Patrick Hand', cursive;
     background: white;
-    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -21,9 +20,7 @@
     position: relative;
     transition: background 0.5s ease;
   }
-
   body.dark { background: #111; color: #eee; }
-
   body::before {
     content: "";
     position: absolute;
@@ -33,8 +30,38 @@
     z-index: 0;
     transition: background 0.5s ease;
   }
-
   body.dark::before { background: rgba(0,0,0,0.7); }
+
+  .notebook {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(255,255,255,0.95);
+    border: 1px solid #d3d3d3;
+    width: 95%;
+    max-width: 650px;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    background-image:
+      repeating-linear-gradient(#fefcf8, #fefcf8 22px, #e3e3e3 23px),
+      linear-gradient(to right, #fefcf8 40px, #a4c8e1 41px, #fefcf8 42px);
+    transition: all 0.5s ease-in-out;
+    perspective: 1200px;
+    transform-style: preserve-3d;
+  }
+
+  body.dark .notebook {
+    background-color: rgba(20,20,20,0.9);
+    border-color: #333;
+    background-image: none;
+  }
+
+  .notebook.flipping { transform: rotateY(180deg); transition: transform 0.8s ease; }
+
+  .page { display: none; opacity: 0; transform: rotateY(180deg); transform-origin: left center; transition: transform 0.8s ease, opacity 0.8s ease; }
+  .page.active { display: block; opacity: 1; transform: rotateY(0deg); }
+
+   body.dark::before { background: rgba(0,0,0,0.7); }
 
   .notebook {
     position: relative;
@@ -349,6 +376,8 @@
 
 <button id="back-to-top" title="Back to Top"><i class="fa-solid fa-arrow-up"></i></button>
 
+<audio id="flip-sound" src="https://www.soundjay.com/page/page-flip-1.mp3" preload="auto"></audio>
+
 <script>
   const nameEl = document.getElementById('animated-name');
   const text = nameEl.textContent;
@@ -362,30 +391,42 @@
     }
   }
   window.onload = typeWriter;
-
   const status = document.getElementById('active-status');
   setInterval(() => {
     status.style.transform = "scale(1.3)";
     setTimeout(() => status.style.transform = "scale(1)", 400);
   }, 1500);
 
+  const flipSound = document.getElementById('flip-sound');
+
   function showPage(id) {
-    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    revealContainers();
-    animateSkills();
+    const notebook = document.querySelector('.notebook');
+    const nextPage = document.getElementById(id);
+    const currentPage = document.querySelector('.page.active');
+    if (currentPage === nextPage) return;
+
+    flipSound.currentTime = 0;
+    flipSound.play();
+
+    notebook.classList.add('flipping');
+
+    setTimeout(() => {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      nextPage.classList.add('active');
+
+      notebook.classList.remove('flipping');
+      revealContainers();
+      animateSkills();
+    }, 400);
   }
 
   const darkBtn = document.getElementById('dark-toggle');
   const darkIcon = darkBtn.querySelector('i');
-
   darkBtn.addEventListener('click', () => {
     document.body.classList.toggle('dark');
-    if(document.body.classList.contains('dark')) {
-      darkIcon.classList.replace('fa-moon','fa-sun'); 
-    } else {
-      darkIcon.classList.replace('fa-sun','fa-moon'); 
-    }
+    darkIcon.classList.contains('fa-moon') ?
+      darkIcon.classList.replace('fa-moon','fa-sun') :
+      darkIcon.classList.replace('fa-sun','fa-moon');
   });
 
   function revealContainers() {
@@ -398,20 +439,17 @@
       }, 200);
     });
   }
-
   function animateSkills() {
     document.querySelectorAll('.skill-bar-inner').forEach(bar => {
       const rect = bar.getBoundingClientRect();
-      if(rect.top < window.innerHeight) {
-        bar.style.width = bar.getAttribute('data-width');
-      }
+      if(rect.top < window.innerHeight) bar.style.width = bar.getAttribute('data-width');
     });
   }
 
   revealContainers();
   animateSkills();
   window.addEventListener('scroll', animateSkills);
-
+  
   const backToTop = document.getElementById('back-to-top');
   window.addEventListener('scroll', () => {
     backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
@@ -420,9 +458,7 @@
 
   document.querySelector('.fa-envelope').parentElement.addEventListener('click', (e) => {
     e.preventDefault();
-    navigator.clipboard.writeText('arigato2477@gmail.com').then(() => {
-      alert('Email copied to clipboard!');
-    });
+    navigator.clipboard.writeText('arigato2477@gmail.com').then(() => alert('Email copied to clipboard!'));
   });
 </script>
 </body>
