@@ -91,7 +91,7 @@
     width: 90px;
     height: 90px;
     object-fit: cover;
-    margin-top: -30px;
+    margin-top: -50px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     transition: transform 0.3s ease;
     animation: float 3s ease-in-out infinite;
@@ -291,7 +291,23 @@
 
 <div class="notebook">
   <header>
-    <img id="icon-mainn" src="https://i.imgur.com/wSqyacy.jpeg" alt="Profile Picture">
+
+<div style="width:100%;height:180px;overflow:hidden;border-radius:12px;margin-bottom:10px;position:relative;">
+  <img id="cover-photo" src="https://i.imgur.com/u5xI9lm.jpeg" 
+       style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
+  <label for="coverUploader" 
+         style="position:absolute;bottom:8px;right:10px;background:#007bff;color:white;
+         padding:5px 10px;border-radius:6px;cursor:pointer;font-size:12px;">
+         Change Cover
+  </label>
+  <input type="file" id="coverUploader" accept="image/*" hidden>
+</div>
+
+<div class="profile-img" onclick="document.getElementById('profileUploader').click()">
+  <img id="icon-mainn" src="https://i.imgur.com/wSqyacy.jpeg">
+</div>
+
+<input type="file" id="profileUploader" accept="image/*" hidden>
     <div id="active-status"></div>
     <h1 class="name" id="animated-name">Ari ✍️</h1>
     <p class="bio">Hi! I'm a creative web developer who loves tech, design, and code.</p>
@@ -460,6 +476,20 @@
     e.preventDefault();
     navigator.clipboard.writeText('arigato2477@gmail.com').then(() => alert('Email copied to clipboard!'));
   });
+
+document.getElementById("profileUploader").addEventListener("change", function(e) {
+  const file = e.target.files[0];
+  if (file) {
+    document.getElementById("icon-mainn").src = URL.createObjectURL(file);
+  }
+});
+
+document.getElementById("coverUploader").addEventListener("change", function(e) {
+  const file = e.target.files[0];
+  if (file) {
+    document.getElementById("cover-photo").src = URL.createObjectURL(file);
+  }
+});
 </script>
 </body>
 </html>
