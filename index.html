@@ -281,10 +281,60 @@
     .container h2 { font-size: 14px; }
     .container p, .container li { font-size: 12px; }
   }
+
+#security-menu {
+  position: fixed;
+  left: 20px; top: 20px;
+  background:#007bff;color:white;
+  padding:8px 13px;border-radius:8px;
+  cursor:pointer;z-index:999;
+  font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.3);
+}
+#security-modal {
+  position:fixed;inset:0;background:rgba(0,0,0,.7);
+  display:none;justify-content:center;align-items:center;
+  z-index:9999;
+}
+#security-box {
+  width:340px;background:white;padding:20px;border-radius:12px;
+  animation:pop .25s ease;
+  font-family:Arial;
+}
+@keyframes pop {0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+.sec-field {margin:10px 0}
+.sec-field input{
+  width:100%;padding:8px;border-radius:6px;border:1px solid #bbb;
+}
+.sec-btn {
+  padding:7px 14px;border:none;border-radius:6px;
+  background:#007bff;color:white;font-weight:bold;
+  cursor:pointer;margin-top:8px;width:100%;
+}
+.log-box {
+  background:#f1f1f1;border-radius:6px;padding:10px;
+  height:160px;overflow-y:auto;font-size:12px;
+}
 </style>
 </head>
 <body>
+<button id="security-menu"><i class="fa-solid fa-shield-halved"></i> Security</button>
 
+<div id="security-modal">
+  <div id="security-box">
+    <h3>🔐 System Security Panel</h3>
+    <p>Encrypted Access • Logs • Password Control</p>
+
+    <div class="sec-field"><input id="sec-pass" type="password" placeholder="Enter Password To Unlock"></div>
+    <button class="sec-btn" onclick="unlockSystem()">Unlock Access</button>
+    <button class="sec-btn" onclick="openChangePW()">Change Password</button>
+    <button class="sec-btn" onclick="resetImages()">Reset Profile + Cover</button>
+
+    <h4>📄 Activity Logs</h4>
+    <div class="log-box" id="log-list"></div>
+
+    <button class="sec-btn" style="background:#222" onclick="closeSecurity()">Close</button>
+  </div>
+</div>
 <button id="dark-toggle" title="Toggle Dark Mode" style="font-size:18px;">
   <i class="fa-solid fa-moon"></i>
 </button>
@@ -394,6 +444,8 @@
 
 <audio id="flip-sound" src="https://www.soundjay.com/page/page-flip-1.mp3" preload="auto"></audio>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
 <script>
   const nameEl = document.getElementById('animated-name');
   const text = nameEl.textContent;
@@ -490,6 +542,89 @@ document.getElementById("coverUploader").addEventListener("change", function(e) 
     document.getElementById("cover-photo").src = URL.createObjectURL(file);
   }
 });
+</script>
+<script>
+const AUTH_KEY = "portfolio_secure_v3_pw";
+const LOG_KEY = "security_logs_v3";
+let unlocked = false;
+let logoutTimer;
+
+document.getElementById("security-menu").onclick=()=>openSecurity();
+
+if(!localStorage.getItem(AUTH_KEY)){
+  const def = CryptoJS.AES.encrypt("admin123","mykey").toString();
+  localStorage.setItem(AUTH_KEY,def);
+}
+
+function openSecurity(){
+  document.getElementById("security-modal").style.display="flex";
+  showLogs();
+}
+function closeSecurity(){
+  document.getElementById("security-modal").style.display="none";
+}
+function unlockSystem(){
+  const input = document.getElementById("sec-pass").value;
+  const dec = CryptoJS.AES.decrypt(localStorage.getItem(AUTH_KEY),"mykey").toString(CryptoJS.enc.Utf8);
+
+  if(input===dec){
+    unlocked = true;
+    enableUpload();
+    pushLog("✔ UNLOCKED SUCCESS");
+    autoLogout();
+    alert("Access Granted — You may now change profile and cover.");
+  }else{
+    pushLog("❌ FAILED ATTEMPT");
+    alert("Incorrect Password");
+  }
+}
+
+function autoLogout(){
+  clearTimeout(logoutTimer);
+  logoutTimer=setTimeout(()=>{
+    unlocked=false;
+    disableUpload();
+    pushLog("🔐 AUTO-LOCKED (Idle)");
+  },180000); 
+}
+
+function openChangePW(){
+  let pw=prompt("Enter new password:");
+  if(!pw) return;
+  const enc=CryptoJS.AES.encrypt(pw,"mykey").toString();
+  localStorage.setItem(AUTH_KEY,enc);
+  pushLog("🔑 Password Changed");
+  alert("Password Updated Successfully.");
+}
+
+function enableUpload(){
+  profileUploader.disabled=false;
+  coverUploader.disabled=false;
+}
+
+function disableUpload(){
+  profileUploader.disabled=true;
+  coverUploader.disabled=true;
+}
+
+disableUpload(); 
+
+function resetImages(){
+  document.getElementById("icon-mainn").src="https://i.imgur.com/wSqyacy.jpeg";
+  document.getElementById("cover-photo").src="https://i.imgur.com/u5xI9lm.jpeg";
+  pushLog("🧹 Images Reset.");
+}
+
+function pushLog(msg){
+  let logs=JSON.parse(localStorage.getItem(LOG_KEY)||"[]");
+  logs.unshift(Date().toString().slice(0,24)+" → "+msg);
+  localStorage.setItem(LOG_KEY,JSON.stringify(logs));
+  showLogs();
+}
+function showLogs(){
+  let logs=JSON.parse(localStorage.getItem(LOG_KEY)||"[]");
+  document.getElementById("log-list").innerHTML=logs.join("<br>");
+}
 </script>
 </body>
 </html>
