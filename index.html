@@ -314,9 +314,37 @@
   background:#f1f1f1;border-radius:6px;padding:10px;
   height:160px;overflow-y:auto;font-size:12px;
 }
+#notif-bar{
+  position:fixed;
+  top:-60px;
+  left:50%;
+  transform:translateX(-50%);
+  width:90%;
+  max-width:500px;
+  background:#ff3b3b;
+  color:#fff;
+  padding:10px 14px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+  font-family:Arial;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+  z-index:9999;
+  transition:top .4s ease;
+}
+#notif-bar img{
+  width:22px;height:22px;border-radius:50%;
+  object-fit:cover;border:2px solid white;
+}
 </style>
 </head>
 <body>
+<div id="notif-bar">
+  <img id="notif-icon" src="">
+  <span id="notif-msg"></span>
+</div>
 <button id="security-menu"><i class="fa-solid fa-shield-halved"></i> Security</button>
 
 <div id="security-modal">
@@ -552,7 +580,7 @@ let logoutTimer;
 document.getElementById("security-menu").onclick=()=>openSecurity();
 
 if(!localStorage.getItem(AUTH_KEY)){
-  const def = CryptoJS.AES.encrypt("admin123","mykey").toString();
+  const def = CryptoJS.AES.encrypt("tite","mykey").toString();
   localStorage.setItem(AUTH_KEY,def);
 }
 
@@ -625,6 +653,32 @@ function showLogs(){
   let logs=JSON.parse(localStorage.getItem(LOG_KEY)||"[]");
   document.getElementById("log-list").innerHTML=logs.join("<br>");
 }
+  
+function showNotif(type){
+  let bar=document.getElementById("notif-bar");
+  let icon=document.getElementById("notif-icon");
+  let text=document.getElementById("notif-msg");
+
+  if(type==="profile"){
+    icon.src=document.getElementById("icon-mainn").src;
+    text.innerHTML="🔒 Profile editing is locked — unlock to change profile.";
+  }
+  if(type==="cover"){
+    icon.src=document.getElementById("cover-photo").src;
+    text.innerHTML="🔒 Cover editing is locked — unlock first!";
+  }
+
+  bar.style.top="15px";    
+  setTimeout(()=> bar.style.top="-70px",3000);
+}
+
+document.getElementById("icon-mainn").onclick=()=>{
+  unlocked ? profileUploader.click() : showNotif("profile");
+};
+
+document.querySelector("label[for='coverUploader']").onclick=()=>{
+  unlocked ? coverUploader.click() : showNotif("cover");
+};
 </script>
 </body>
 </html>
